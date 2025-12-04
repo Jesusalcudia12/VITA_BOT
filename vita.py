@@ -345,8 +345,7 @@ async def procesar_consulta(update: Update, context: CallbackContext) -> int:
         medicamento = "N/A"
         requiere_receta = False
         respuesta_corta = "Lo siento, hubo un error al buscar la información."
-    ⚠️ APLICACIÓN DE ADVERTENCIA MÉDICA Y ALERGIAS
-    # ----------------------------------------------------
+ 
 
     mensaje = f"Hola, **{nombre}**.\n\n"
     mensaje += f"De acuerdo a los síntomas de **{sintomas}**, la información general apunta a **{enfermedad}**.\n"
