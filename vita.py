@@ -641,6 +641,8 @@ async def comando_salud(update: Update, context: CallbackContext):
         "¡vale la pena invertir en tu salud! 😉\n\n"
         "**Te comparto esta lista de libros, guías y videos de ayuda:**\n"
         f"{enlaces_proveedor}"
+    )
+        
          # ⚠️ REEMPLAZA ESTOS CON TUS ENLACES REALES
     enlaces_proveedor = (
         "📚 **salud keto** [https://go.hotmart.com/D103265767X]\n"
@@ -674,7 +676,7 @@ def main():
         entry_points=[CommandHandler("salud", comando_salud)],
         entry_points=[CommandHandler("fitnest", comando_fitnest)],
         entry_points=[CommandHandler("maps", comando_maps)],
-        
+    )
         states={
             REG_NOMBRE: [MessageHandler(filters.TEXT & ~filters.COMMAND, obtener_nombre)],
             REG_APELLIDOS: [MessageHandler(filters.TEXT & ~filters.COMMAND, obtener_apellidos)],
