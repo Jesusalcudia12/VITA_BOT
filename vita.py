@@ -677,7 +677,7 @@ def main():
         entry_points=[CommandHandler("fitnest", comando_fitnest)],
         entry_points=[CommandHandler("maps", comando_maps)],
     )
-        states={
+        states = (
             REG_NOMBRE: [MessageHandler(filters.TEXT & ~filters.COMMAND, obtener_nombre)],
             REG_APELLIDOS: [MessageHandler(filters.TEXT & ~filters.COMMAND, obtener_apellidos)],
             REG_EDAD: [MessageHandler(filters.TEXT & ~filters.COMMAND, obtener_edad)],
@@ -693,7 +693,7 @@ def main():
             CMD_FUR_REGULARIDAD: [MessageHandler(filters.TEXT & ~filters.COMMAND, fur_obtener_regularidad)],
             CMD_FUR_FECHA: [MessageHandler(filters.TEXT & ~filters.COMMAND, fur_calcular)],
             CMD_FITNEST_DISCIPLINA: [MessageHandler(filters.TEXT & ~filters.COMMAND, fitnest_buscar)],
-        },
+    )
         
         fallbacks=[CommandHandler("cancel", cancel)],
         allow_reentry=True,
