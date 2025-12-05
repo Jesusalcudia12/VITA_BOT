@@ -666,8 +666,7 @@ def main():
 
     # Definición del flujo del ConversationHandler
     registro_handler = ConversationHandler(
-        entry_points=[
-        CommandHandler("start", start,),
+        entry_points=[CommandHandler("start", start,),
         CommandHandler("consulta", comando_consulta),
         CommandHandler("ayuda", comando_ayuda),
         CommandHandler("perfil", comando_perfil),
