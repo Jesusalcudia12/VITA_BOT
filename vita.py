@@ -695,8 +695,8 @@ def main():
         CMD_FITNEST_DISCIPLINA: [MessageHandler(filters.TEXT & ~filters.COMMAND, fitnest_buscar)],
     }
         
-        fallbacks=[CommandHandler("cancel", cancel)],
-        allow_reentry=True,
+    fallbacks=[CommandHandler("cancel", cancel)],
+    allow_reentry=True,
     )
 
     application.add_handler(registro_handler)
