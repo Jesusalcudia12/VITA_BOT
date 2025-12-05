@@ -8,6 +8,7 @@ from telegram.ext import (
     ConversationHandler,
     CallbackContext,
 )
+from googlesearch import search
 
 # Habilitar logging (útil para Termux)
 logging.basicConfig(
@@ -325,8 +326,8 @@ async def procesar_consulta(update: Update, context: CallbackContext) -> int:
     # Usaremos una simulación para la respuesta:
     
     try:
-        resultado_busqueda = await google:search("enfermedad y tratamiento para " + sintomas)
-        
+        resultado_busqueda = await google_search("enfermedad y tratamiento para " + sintomas) 
+
         # Procesamiento de la respuesta (muy simplificado)
         # Esto es un ejemplo, en la vida real se necesitaría un NLP avanzado.
         if "gripe" in resultado_busqueda.lower() or "resfriado" in resultado_busqueda.lower():
