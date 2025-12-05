@@ -697,7 +697,7 @@ def main():
         
     fallbacks=[CommandHandler("cancel", cancel)],
     allow_reentry=True,
-    )
+    
 
     application.add_handler(registro_handler)
     application.add_handler(consulta_handler)
