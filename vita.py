@@ -661,17 +661,16 @@ def main():
     """Ejecuta el bot."""
     # ⚠️ REEMPLAZA ESTO CON TU TOKEN DE BOTFATHER ⚠️
     TOKEN = ("8555237773:AAHZiG_nqBzGyWshGsXBzCEKnOKmOjxoHLw") 
-    
     application = Application.builder().token(TOKEN).build()
 
     # Definición del flujo del ConversationHandler
     registro_handler = ConversationHandler(
         
         entry_points=[
-        CommandHandler("start", comando_start),
+        CommandHandler("start", start),
         CommandHandler("consulta", comando_consulta),
         CommandHandler("ayuda", comando_ayuda),
-        CommandHandler("perfil", comando_perfil),
+        CommandHandler("perfil", start),
         CommandHandler("imc", comando_imc),
         CommandHandler("fur", comando_fur),
         CommandHandler("care", comando_care),
@@ -708,7 +707,7 @@ def main():
     # ----------------------------------------------------
     # application.add_handler(CommandHandler("consulta", comando_consulta)) # Ejemplo
     
-    application.add_handler(CommandHandler("start", comando_start))
+    application.add_handler(CommandHandler("start", start))
     application.add_handler(CommandHandler("consulta", comando_consulta))
     application.add_handler(CommandHandler("ayuda", comando_ayuda))
     application.add_handler(CommandHandler("imc", comando_imc))
@@ -716,7 +715,7 @@ def main():
     application.add_handler(CommandHandler("care", comando_care))
     application.add_handler(CommandHandler("salud", comando_salud))
     application.add_handler(CommandHandler("fitnest", comando_fitnest))
-    application.add_handler(CommandHandler("perfil", comando_perfil))
+    application.add_handler(CommandHandler("perfil", start))
     application.add_handler(CommandHandler("maps", comando_maps))
     application.add_handler(MessageHandler(filters.LOCATION, procesar_ubicacion))
     
