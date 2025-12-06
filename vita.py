@@ -43,22 +43,25 @@ logging.basicConfig(
 # 2. MANEJADOR DE COMANDOS /start y Bienvenida
 # ----------------------------------------------------
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+aasync def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
    
     user_data = context.user_data
-    chat_id = update.effective_chat.id # Puedes dejar esta línea, aunque no se use inmediatamente
     
-  
+    # 1. Lógica de Verificación (IF)
     if user_data.get('registrado'):
+        # --- CASO 1: USUARIO REGISTRADO ---
+        nombre = user_data.get('nombre', update.effective_user.first_name)
+        
         await update.message.reply_text(
-            f"¡Bienvenido/a de nuevo, {user_data.get('nombre', 'Usuario')}! Ya estás registrado/a.\n"
+            f"¡Bienvenido/a de nuevo, {nombre}! Ya estás registrado/a.\n"
             "Usa el menú o los comandos para acceder a los servicios:\n"
-            "/consulta, /ayuda, /perfil, etc."
+            "/consulta, /imc, /ayuda, /perfil, etc."
         )
-       
+        
+        # Finaliza el flujo de conversación (no espera respuesta)
         return ConversationHandler.END 
     
-   
+    # 2. Inicio del Registro (ELSE)
     else:
         await update.message.reply_text(
             "¡Hola! Soy tu Asistente de Salud. Para comenzar a darte asistencia personalizada,"
@@ -66,6 +69,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
             "**Comencemos con tu Nombre Completo:**"
         )
         
+        # Retorna el primer estado de la conversación (REG_NOMBRE)
         return REG_NOMBRE
 async def comando_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Inicia el flujo de consulta de síntomas."""
@@ -313,6 +317,43 @@ async def confirmar_registro(update: Update, context: ContextTypes.DEFAULT_TYPE)
             ),
         )
         return REG_VALIDACION
+async def comando_perfil(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    """Muestra el perfil completo del usuario o lo invita a registrarse."""
+    user_data = context.user_data
+    
+    # 🟢 Lógica: Verifica si el registro está completo
+    if user_data.get('registrado'):
+        # Extraer todos los datos (usa 'N/A' si faltan)
+        nombre = user_data.get('nombre', 'N/A')
+        apellidos = user_data.get('apellidos', 'N/A')
+        edad = user_data.get('edad', 'N/A')
+        peso = user_data.get('peso', 'N/A')
+        altura = user_data.get('altura', 'N/A')
+        alergias = user_data.get('alergias', 'Ninguna')
+        sexo = user_data.get('sexo', 'N/A')
+        embarazo = user_data.get('embarazo', 'N/A')
+
+        mensaje_perfil = (
+            "👤 **Tu Perfil VITA**\n"
+            "----------------------------\n"
+            f"**Nombre:** {nombre} {apellidos}\n"
+            f"**Edad:** {edad}\n"
+            f"**Sexo:** {sexo}\n"
+            f"**Peso/Altura:** {peso} kg / {altura} cm\n"
+            f"**Alergias:** {alergias}\n"
+            f"**Estado de Embarazo:** {embarazo}\n\n"
+            "Para actualizar tu perfil, usa el comando /start (reinicia el proceso)."
+        )
+        await update.message.reply_text(mensaje_perfil, parse_mode='Markdown')
+        
+    else:
+        # Si no está registrado, le pide que inicie el registro
+        await update.message.reply_text(
+            "Tu perfil aún no está completo. Por favor, usa el comando **/start** para iniciar el registro y guardar tus datos."
+        )
+        
+    # Finaliza el flujo, ya que /perfil solo es informativo
+    return ConversationHandler.END
 
 # Función para cancelar el registro en cualquier momento
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
@@ -680,7 +721,7 @@ def main():
         CommandHandler("start", start),
         CommandHandler("consulta", comando_consulta),
         CommandHandler("ayuda", comando_ayuda),
-        CommandHandler("perfil", start),
+        CommandHandler("perfil", comando_perfil),
         CommandHandler("imc", comando_imc),
         CommandHandler("fur", comando_fur),
         CommandHandler("care", comando_care),
@@ -725,7 +766,7 @@ def main():
     application.add_handler(CommandHandler("care", comando_care))
     application.add_handler(CommandHandler("salud", comando_salud))
     application.add_handler(CommandHandler("fitnest", comando_fitnest))
-    application.add_handler(CommandHandler("perfil", start))
+    application.add_handler(CommandHandler("perfil", comando_perfil))
     application.add_handler(CommandHandler("maps", comando_maps))
     application.add_handler(MessageHandler(filters.LOCATION, procesar_ubicacion))
     
