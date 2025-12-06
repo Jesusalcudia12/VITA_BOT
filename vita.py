@@ -718,7 +718,7 @@ def main():
     registro_handler = ConversationHandler(
         
         entry_points=[
-        CommandHandler("start", start),
+        CommandHandler("start", REG_NOMBRE),
         CommandHandler("consulta", comando_consulta),
         CommandHandler("ayuda", comando_ayuda),
         CommandHandler("perfil", comando_perfil),
@@ -730,7 +730,7 @@ def main():
         CommandHandler("maps", comando_maps),
         ],
     states={
-        REG_NOMBRE: [MessageHandler(filters.TEXT & ~filters.COMMAND, obtener_nombre)],
+        REG_NOMBRE: [MessageHandler(filters.TEXT & ~filters.COMMAND, REG_NOMBRE)],
         REG_APELLIDOS: [MessageHandler(filters.TEXT & ~filters.COMMAND, obtener_apellidos)],
         REG_EDAD: [MessageHandler(filters.TEXT & ~filters.COMMAND, obtener_edad)],
         REG_PESO: [MessageHandler(filters.TEXT & ~filters.COMMAND, obtener_peso)],
