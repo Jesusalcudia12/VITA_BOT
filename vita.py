@@ -71,7 +71,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         
         # Retorna el primer estado de la conversación (REG_NOMBRE)
         return REG_NOMBRE
-async def comando_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def /consulta(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Inicia el flujo de consulta de síntomas."""
     user_data = context.user_data
 
@@ -316,7 +316,7 @@ async def confirmar_registro(update: Update, context: ContextTypes.DEFAULT_TYPE)
             ),
         )
         return REG_VALIDACION
-async def comando_perfil(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def /perfil(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Muestra el perfil completo del usuario o lo invita a registrarse."""
     user_data = context.user_data
     
@@ -425,7 +425,7 @@ async def procesar_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE) 
     await update.message.reply_text(mensaje, parse_mode='Markdown')
     
     return ConversationHandler.END
-async def comando_ayuda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def /ayuda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Inicia el flujo de ayuda general, activando la búsqueda web."""
     
     # Si el bot puede manejar la búsqueda de forma asíncrona, no necesita ConversationHandler.
@@ -441,7 +441,7 @@ async def comando_ayuda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> i
     # El bot pasa a un estado donde cualquier mensaje de texto 
     # se interpreta como una pregunta de ayuda general.
     return CONSULTA_PREGUNTA # Reutilizamos el estado para la próxima pregunta de texto.
-async def comando_imc(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def /imc(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Inicia el cálculo del IMC."""
     user_data = context.user_data
     
@@ -517,7 +517,7 @@ async def calcular_e_informar_imc(update: Update, context: ContextTypes.DEFAULT_
         
     # Finaliza la conversación
     return ConversationHandler.END
-async def comando_fur(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def /fur(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Inicia el cálculo de la edad gestacional."""
     user_data = context.user_data
     
@@ -586,7 +586,7 @@ async def fur_calcular(update: Update, context: ContextTypes.DEFAULT_TYPE) -> in
         return CMD_FUR_FECHA
 
     return ConversationHandler.END
-async def comando_care(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def /care(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Proporciona información sobre cuidado facial mediante búsqueda web."""
     query = "rutina de cuidado facial piel limpia y definida"
     
@@ -602,7 +602,7 @@ async def comando_care(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     except Exception:
         await update.message.reply_text("Lo siento, no pude acceder a la web en este momento. Inténtalo de nuevo más tarde.")
-async def comando_fitnest(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def /fitnest(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Inicia la pregunta sobre la disciplina deportiva."""
     await update.message.reply_text("🏋️‍♀️ **¿Qué deportes, disciplina o pasatiempo practicas?**\n"
                                     "Esto me ayudará a buscar la dieta y ejercicios más adecuados para ti.")
@@ -626,7 +626,7 @@ async def fitnest_buscar(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
         await update.message.reply_text("Lo siento, no pude obtener los resultados de la búsqueda.")
         
     return ConversationHandler.END
-async def comando_maps(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def /maps(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Pide la ubicación para buscar farmacias y hospitales."""
     await update.message.reply_text(
         "📍 Para encontrar hospitales y farmacias cercanas, por favor **comparte tu ubicación** actual."
@@ -656,7 +656,7 @@ async def procesar_ubicacion(update: Update, context: ContextTypes.DEFAULT_TYPE)
             )
         except Exception:
             await update.message.reply_text("No se pudieron obtener resultados de mapas en este momento.")
-async def comando_perfil(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def /perfil(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Muestra los datos del perfil y ofrece opción de modificación."""
     user_data = context.user_data
     
@@ -681,7 +681,7 @@ async def comando_perfil(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=ReplyKeyboardMarkup([['Modificar Datos']], one_time_keyboard=True, resize_keyboard=True)
     )
     # NOTA: Al pulsar 'Modificar Datos', se debe iniciar el ConversationHandler de REGISTRO (o uno nuevo de edición).
-async def comando_salud(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def /salud(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Muestra el mensaje de venta y enlaces de ayuda."""
     
     mensaje = (
@@ -717,16 +717,16 @@ def main():
     registro_handler = ConversationHandler(
         
         entry_points=[
-        CommandHandler("start", comando_start),
-        CommandHandler("consulta", comando_consulta),
-        CommandHandler("ayuda", comando_ayuda),
-        CommandHandler("perfil", comando_perfil),
-        CommandHandler("imc", comando_imc),
-        CommandHandler("fur", comando_fur),
-        CommandHandler("care", comando_care),
-        CommandHandler("salud", comando_salud),
-        CommandHandler("fitnest", comando_fitnest),
-        CommandHandler("maps", comando_maps),
+        CommandHandler("start", /start),
+        CommandHandler("consulta", /consulta),
+        CommandHandler("ayuda", /ayuda),
+        CommandHandler("perfil", /perfil),
+        CommandHandler("imc", /imc),
+        CommandHandler("fur", /fur),
+        CommandHandler("care", /care),
+        CommandHandler("salud", /salud),
+        CommandHandler("fitnest", /fitnest),
+        CommandHandler("maps", /maps),
         ],
     states={
         REG_NOMBRE: [MessageHandler(filters.TEXT & ~filters.COMMAND, obtener_nombre)],
@@ -757,16 +757,16 @@ def main():
     # ----------------------------------------------------
     # application.add_handler(CommandHandler("consulta", comando_consulta)) # Ejemplo
     
-    application.add_handler(CommandHandler("start", comando_start))
-    application.add_handler(CommandHandler("consulta", comando_consulta))
-    application.add_handler(CommandHandler("ayuda", comando_ayuda))
-    application.add_handler(CommandHandler("imc", comando_imc))
-    application.add_handler(CommandHandler("fur", comando_fur))
-    application.add_handler(CommandHandler("care", comando_care))
-    application.add_handler(CommandHandler("salud", comando_salud))
-    application.add_handler(CommandHandler("fitnest", comando_fitnest))
-    application.add_handler(CommandHandler("perfil", comando_perfil))
-    application.add_handler(CommandHandler("maps", comando_maps))
+    application.add_handler(CommandHandler("start", /start))
+    application.add_handler(CommandHandler("consulta", /consulta))
+    application.add_handler(CommandHandler("ayuda", /ayuda))
+    application.add_handler(CommandHandler("imc", /imc))
+    application.add_handler(CommandHandler("fur", /fur))
+    application.add_handler(CommandHandler("care", /care))
+    application.add_handler(CommandHandler("salud", /salud))
+    application.add_handler(CommandHandler("fitnest", /fitnest))
+    application.add_handler(CommandHandler("perfil", /perfil))
+    application.add_handler(CommandHandler("maps", /maps))
     application.add_handler(MessageHandler(filters.LOCATION, procesar_ubicacion))
     
     # Iniciar el Bot
