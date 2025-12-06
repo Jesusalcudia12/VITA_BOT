@@ -44,27 +44,29 @@ logging.basicConfig(
 # ----------------------------------------------------
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    await update.message.reply_text(
-        "¡Hola! Soy tu Asistente de Salud. Para comenzar a darte asistencia personalizada"
-        "necesito recopilar algunos datos de tu perfil.\n"
-        "**Comencemos con tu Nombre Completo:**"
-          update.message.text
-     nombre_ingresado = update.message.text
-    context.user_data['nombre'] = nombre_ingresado
-    )
-    return REG_NOMBRE
+   
     user_data = context.user_data
-    chat_id = update.effective_chat.id
-
-    # Si el usuario ya está registrado, omite el registro
+    chat_id = update.effective_chat.id # Puedes dejar esta línea, aunque no se use inmediatamente
+    
+  
     if user_data.get('registrado'):
         await update.message.reply_text(
-            f"¡Bienvenido/a de nuevo, {user_data['nombre']}! Ya estás registrado/a.\n"
+            f"¡Bienvenido/a de nuevo, {user_data.get('nombre', 'Usuario')}! Ya estás registrado/a.\n"
             "Usa el menú o los comandos para acceder a los servicios:\n"
             "/consulta, /ayuda, /perfil, etc."
         )
-        return ConversationHandler.END # Finaliza el ConversationHandler si ya está registrado
-
+       
+        return ConversationHandler.END 
+    
+   
+    else:
+        await update.message.reply_text(
+            "¡Hola! Soy tu Asistente de Salud. Para comenzar a darte asistencia personalizada,"
+            "necesito recopilar algunos datos de tu perfil.\n"
+            "**Comencemos con tu Nombre Completo:**"
+        )
+        
+        return REG_NOMBRE
 async def comando_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Inicia el flujo de consulta de síntomas."""
     user_data = context.user_data
@@ -88,6 +90,7 @@ async def comando_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 async def obtener_nombre(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     nombre_ingresado = update.message.text
     context.user_data['nombre'] = nombre_ingresado
+    
     await update.message.reply_text(
         f"¡Hola, {nombre_ingresado}! Gracias por tu nombre.\n"
         "Ahora, **¿cuáles son tus Apellidos?**"
