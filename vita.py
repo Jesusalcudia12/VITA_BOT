@@ -70,7 +70,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         )
         
         # Retorna el primer estado de la conversación (REG_NOMBRE)
-        return REG_NOMBRE
+        return REG_NOMBRE(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    nombre_ingresado = update.message.text
+    
+    await update.message.reply_text(
+        f"¡Hola, {nombre_ingresado}! Gracias por tu nombre.\n"
+        "Ahora, **¿cuáles son tus Apellidos?**"
+    )
+    return REG_APELLIDOS
 async def comando_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Inicia el flujo de consulta de síntomas."""
     user_data = context.user_data
@@ -93,7 +100,6 @@ async def comando_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 # --- A. Captura Nombre ---
 async def REG_NOMBRE(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     nombre_ingresado = update.message.text
-    context.user_data['nombre'] = nombre_ingresado
     
     await update.message.reply_text(
         f"¡Hola, {nombre_ingresado}! Gracias por tu nombre.\n"
