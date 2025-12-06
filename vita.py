@@ -91,7 +91,7 @@ async def comando_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE) -
 # ----------------------------------------------------
 
 # --- A. Captura Nombre ---
-async def obtener_nombre(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+async def REG_NOMBRE(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     nombre_ingresado = update.message.text
     context.user_data['nombre'] = nombre_ingresado
     
