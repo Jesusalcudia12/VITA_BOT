@@ -70,7 +70,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         )
         
         # Retorna el primer estado de la conversación (REG_NOMBRE)
-        return REG_NOMBRE(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+        return REG_NOMBRE(update, Update, context, ContextTypes.DEFAULT_TYPE) -> int:
     nombre_ingresado = update.message.text
     
     await update.message.reply_text(
