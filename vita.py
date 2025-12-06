@@ -44,6 +44,12 @@ logging.basicConfig(
 # ----------------------------------------------------
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+      await update.message.reply_text(
+        "¡Hola! Soy tu Asistente de Salud. Para comenzar a darte asistencia personalizada, "
+        "necesito recopilar algunos datos de tu perfil.\n"
+        "**Comencemos con tu Nombre Completo:**"
+    )
+    return REG_NOMBRES
     """Inicia la conversación y pide el nombre."""
     user_data = context.user_data
     chat_id = update.effective_chat.id
@@ -57,13 +63,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
         )
         return ConversationHandler.END # Finaliza el ConversationHandler si ya está registrado
 
-    # Mensaje de bienvenida e inicio de registro
-    await update.message.reply_text(
-        "¡Hola! Soy tu Asistente de Salud. Para comenzar a darte asistencia personalizada, "
-        "necesito recopilar algunos datos de tu perfil.\n"
-        "**Comencemos con tu Nombre Completo:**"
-    )
-    return REG_APELLIDOS
 async def comando_consulta(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
     """Inicia el flujo de consulta de síntomas."""
     user_data = context.user_data
